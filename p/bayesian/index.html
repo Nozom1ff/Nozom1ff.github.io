@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="2025.09 - 2028.06 \u200b\u200bMaster of Electronic Information in Beijing University of Aeronautics and Astronautics\n2021.09 - 2025.06 Bachelor of Software Engineering in Jilin University\nA Roguelike Lover 👾\n">
-<title>关于我</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="简单学习贝叶斯神经网络">
+<title>Bayesian</title>
 
-<link rel='canonical' href='https://Nozom1ff.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/'>
+<link rel='canonical' href='https://Nozom1ff.github.io/p/bayesian/'>
 
-<link rel="stylesheet" href="/scss/style.min.b41fbeb1758861b170a462ca5c5b93b973caa976a8f1c39fb877a49158ef60fb.css"><meta property='og:title' content="关于我">
-<meta property='og:description' content="2025.09 - 2028.06 \u200b\u200bMaster of Electronic Information in Beijing University of Aeronautics and Astronautics\n2021.09 - 2025.06 Bachelor of Software Engineering in Jilin University\nA Roguelike Lover 👾\n">
-<meta property='og:url' content='https://Nozom1ff.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/'>
+<link rel="stylesheet" href="/scss/style.min.b41fbeb1758861b170a462ca5c5b93b973caa976a8f1c39fb877a49158ef60fb.css"><meta property='og:title' content="Bayesian">
+<meta property='og:description' content="简单学习贝叶斯神经网络">
+<meta property='og:url' content='https://Nozom1ff.github.io/p/bayesian/'>
 <meta property='og:site_name' content='Nozom1ff&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:modified_time' content='2025-04-19T18:12:10&#43;08:00'/>
-<meta name="twitter:title" content="关于我">
-<meta name="twitter:description" content="2025.09 - 2028.06 \u200b\u200bMaster of Electronic Information in Beijing University of Aeronautics and Astronautics\n2021.09 - 2025.06 Bachelor of Software Engineering in Jilin University\nA Roguelike Lover 👾\n">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-05-10T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-05-10T22:03:49&#43;08:00'/>
+<meta name="twitter:title" content="Bayesian">
+<meta name="twitter:description" content="简单学习贝叶斯神经网络">
     <link rel="shortcut icon" href="/patato.ico" />
 
     </head>
@@ -122,7 +122,7 @@
         </li>
         
         
-        <li  class='current' >
+        <li >
             <a href='/%E5%85%B3%E4%BA%8E%E6%88%91/' >
                 
                 
@@ -208,7 +208,49 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1-不确定性uncertainty">1 不确定性（Uncertainty）</a></li>
+    <li><a href="#11-认知不确定性epistemic-uncertainty">1.1 认知不确定性（<strong>Epistemic Uncertainty</strong>）</a></li>
+    <li><a href="#12-偶然不确定性aleatoric-uncertainty">1.2 偶然不确定性（<strong>Aleatoric Uncertainty</strong>）</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#22-训练及近似推断">2.2 训练及近似推断</a>
+      <ol>
+        <li><a href="#221-变分推断variational-inference">2.2.1 变分推断（Variational Inference）</a></li>
+        <li><a href="#222-证据下界evidence-lower-bound-elbo">2.2.2 证据下界(Evidence Lower Bound, <em>ELBO</em>)</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="main-article">
@@ -216,12 +258,24 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            <a href="/categories/bayesian/" >
+                Bayesian
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我</a>
+            <a href="/p/bayesian/">Bayesian</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            简单学习贝叶斯神经网络
+        </h3>
         
     </div>
 
@@ -230,6 +284,19 @@
     
     
     <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-05-10</time>
+            </div>
         
 
         
@@ -243,7 +310,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 5 分钟
                 </time>
             </div>
         
@@ -258,9 +325,92 @@
     <section class="article-content">
     
     
-    <p>2025.09 - 2028.06 ​​Master of Electronic Information in Beijing University of Aeronautics and Astronautics</p>
-<p>2021.09 - 2025.06 Bachelor of Software Engineering in Jilin University</p>
-<p><em>A Roguelike Lover</em> <span class="nowrap"><span class="emojify">👾</span></p>
+    <h2 id="1-不确定性uncertainty">1 不确定性（Uncertainty）
+</h2><p>传统深度学习算法几乎只能给出一个特定的结果，在一些领域需要让网络给出一个<strong>包含置信度的输出</strong></p>
+<h2 id="11-认知不确定性epistemic-uncertainty">1.1 认知不确定性（<strong>Epistemic Uncertainty</strong>）
+</h2><p>​	模型由于对参数（权重）的不确定而产生的不确定性。当训练数据稀疏或与测试数据分布不同时，这种不确定性会较高。BNN通过<strong>权重的分布</strong>来获得认知不确定性。</p>
+<blockquote>
+<p>BNN中，权重不再是一个数值，通常假设其服从某种概率分布（如高斯分布），后文会详细介绍。</p>
+</blockquote>
+<p>​	在贝叶斯神经网络中，回归问题的认知不确定性由给定权重  $\omega$ 下模型的平均预测（<strong>不同权重采样导致不同的预测</strong>）</p>
+$$U_{epistemic} = Var_{p(w|D)}[f_w(x*)]
+= E_{p(w|D)}[(f_w(x*) - E_{p(w'|D)}[f_{w'}(x*)])^2]$$<p>​	分类问题不确定性可以用熵来衡量：</p>
+$$H(\mathrm{p})=-\sum_{c=1}^Cp_c\log p_c$$<h2 id="12-偶然不确定性aleatoric-uncertainty">1.2 偶然不确定性（<strong>Aleatoric Uncertainty</strong>）
+</h2><p>​	数据本身<strong>固有的噪声</strong>导致的不确定性。BNN可以通过学习预测分布的方差来评估此不确定性。这里需要使我们的BNN不仅预测均值，还预测与数据相关的方差（即异方差噪声模型，<strong>heteroscedastic</strong>）,同时修改损失函数：</p>
+$$L(\theta)=\frac{1}{N}\sum_{i=1}^N\frac{1}{2\sigma(\mathrm{x}_i)^2}\|\mathrm{y}_i-f(\mathrm{x}_i)\|^2+\frac{1}{2}\mathrm{log}\sigma(\mathrm{x}_i)^2$$<p>​	量化公式如下</p>
+$$U_{aleatoric} = E_{p(w|D)}[σ_{data}^2(x*, w)]$$<h1 id="2-贝叶斯神经网络bayesian-neural-network">2 贝叶斯神经网络（Bayesian Neural Network）
+</h1>$$P(W | D) = [ P(D | W) * P(W) ] / P(D)$$<p>​	条件概率是贝叶斯公式的关键所在，也被称为<strong>似然度</strong></p>
+<h1 id="21-基本概念">2.1 基本概念
+</h1><ul>
+<li>
+<p>权重（Weights）: 在BNN中，权重 w 不再是固定的点估计值，而是被视为<strong>概率分布</strong>。这意味着每个权重都有一系列可能的值，每个值都有一定的概率。</p>
+</li>
+<li>
+<p><strong>先验分布</strong>（<strong>Prior Distribution</strong>）:P(W)，在观察到任何数据之前，我们对权重的初始信念或假设 <em>( 例如，假设权重服从均值为0、方差为1的高斯分布，由于中心极限定理的存在，这个假设是比较合理的)</em></p>
+</li>
+<li>
+<p><strong>似然函数</strong>（<strong>Likelihood</strong>）:假设我们有一个参数为$\theta$的模型，观测到的样本数据为 X = { x 1 , x 2 , … , x n } ，那么似然函数$L(\theta \mid X)$可以表示为：</p>
+$$ L(\theta \mid X)=P(X\mid \theta)$$<ul>
+<li>
+<p><strong>似然函数的构造</strong>：</p>
+<p>对于 <strong>独立同分布（i.i.d.)</strong> 的样本 X，可以假设每个样本的概率是独立的，因此似然函数是所有样本概率的乘积：</p>
+$$L(\theta\mid X)=\prod_{i=1}^nP(x_i\mid\theta)$$<p>因为似然函数通常是概率密度的乘积，而乘积的计算容易引起<strong>浮点数下溢</strong>，因此我们常常对似然函数取对数</p>
+$$\ell(\theta\mid X)=\log L(\theta\mid X)=\sum_{i=1}^n\log P(x_i\mid\theta)$$</li>
+</ul>
+</li>
+<li>
+<p><strong>证据 (Evidence) /边缘似然 (Marginal Likelihood)</strong>:P(D),数据 D 的概率，是一个归一化常数。$P(\mathcal{D})=\int_\Theta p(\mathcal{D}|W)p(W)\mathrm{d}W$ 涉及到高维积分很难算！一般采用其他方法近似计算！</p>
+</li>
+<li>
+<p><strong>后验分布 (Posterior Distribution)</strong>：P(W|D),在观察到数据 D 之后，权重的概率分布。这是我们最终想要学习的。</p>
+</li>
+</ul>
+<h2 id="22-训练及近似推断">2.2 训练及近似推断
+</h2><p>​	BNN 的训练过程就是根据训练数据 D 和先验 P(W) 来估计权重的后验分布 P(W | D)，本文主要介绍通过变分推断来近似参数的后验分布。</p>
+<h3 id="221-变分推断variational-inference">2.2.1 变分推断（Variational Inference）
+</h3><p>​	变分推断的核心思想：使用变分推断近似网络参数的后验分布的核心思想：<font color='aqua'>使用一个易于计算的分布$q(\theta^{\prime})$ 近似真实后验分布 $p(\theta)$</font>。通过最小化两个分布之间的距离，即KL散度，优化得到$q(\theta^{\prime})$。</p>
+<blockquote>
+<p>KL散度又可称为相对熵，描述两个概率分布的差异或相似性</p>
+$$H(x)=-\sum_{i=1}^nP(x_i)\log P(x_i)=\sum_{i=1}^nP(x_i)\log\frac{1}{P(x_i)}=H(P)$$$$H(P,Q)=-\sum_{i=1}^nP(x_i)\log Q(x_i)=\sum_{i=1}^nP(x_i)\log\frac{1}{Q(x_i)}$$$$KL(P\mid\mid Q)=H(P,Q)-H(P)=\sum_iP(x_i)\log\frac{P(x_i)}{Q(x_i)}$$</blockquote>
+$$\min_{q(\theta^{\prime})}\quad\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))$$<h3 id="222-证据下界evidence-lower-bound-elbo">2.2.2 证据下界(Evidence Lower Bound, <em>ELBO</em>)
+</h3><ul>
+<li>消除不好计算的$p(\theta|\mathcal{D})$</li>
+</ul>
+$$\begin{aligned}
+\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D})) & =\int_{q(\theta^{\prime})}q(\theta^{\prime})\log\frac{q(\theta^{\prime})}{p(\theta|\mathcal{D})}\mathrm{d}\theta^{\prime} \\
+ & =\mathbb{E}_{q(\theta^{\prime})}\left[\log\frac{q(\theta^{\prime})}{p(\theta|\mathcal{D})}\right] \\
+ & =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log p(\theta|\mathcal{D})\right] \\
+ & =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log\frac{p(\theta,\mathcal{D})}{p(\mathcal{D})}\right] \\
+ & =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log p(\theta,\mathcal{D})+\log p(\mathcal{D})\right] \\
+ & =\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})]-\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta,\mathcal{D})]+\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]
+\end{aligned}$$<ul>
+<li>
+<p>令</p>
+$$\mathrm{ELBO}=\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}p(\theta,\mathcal{D})]-\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}q(\theta^{\prime})]$$<p>  得到</p>
+$$\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]=\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))+\mathrm{ELBO}$$<p>由于$p({\mathcal{D})}$与$q(\theta^{\prime})$<strong>无关</strong>，由此<strong>可以认为等式左方是一个常数</strong>，则欲使KL散度最小化，等价于使ELBO最大化，此时优化目标变为</p>
+$$\max_{q(\theta^{\prime})}\quad\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta,\mathcal{D})]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})]$$<p>其中</p>
+$$\begin{aligned}
+   & \mathbb{E}_{q(\theta^{\prime})}\left[\log p(\theta,\mathcal{D})\right]-\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})\right] \\
+   & =\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}(p(\mathcal{D}|\theta)p(\theta))]-\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}q(\theta^{\prime})] \\
+   & =\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D}|\theta)+\log p(\theta)]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})] \\
+   & =\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D}|\theta)]+\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta)]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})] \\
+   & =\mathbb{E}_{q(\theta^{\prime})}\left[\log p(\mathcal{D}|\theta)\right]-\mathrm{KL}(q(\theta^{\prime})||p(\theta))
+  \end{aligned}$$<p>即优化目标变为</p>
+$$\max_{q(\theta^{\prime})}\quad\mathbb{E}_{q(\theta^{\prime})}\left[\log p(\mathcal{D}|\theta)\right]-\mathrm{KL}(q(\theta^{\prime})||p(\theta))$$<p>这个优化目标表达了对$q(\theta^{\prime})$<strong>两个要求</strong>：</p>
+<ul>
+<li>第一项期望尽量大：在似然上的期望越大越好，这需要$q(\theta^{\prime})$能尽可能准确地描述数据集潜在的规律</li>
+<li>第二项需要KL散度尽量小，即与真实分布$p(\theta)$越相似越好</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>为什么叫做Evidence Lower Bound?</p>
+<p>因为KL散度always大于等于0，所以有以下不等式：</p>
+$$\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]=\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))+\mathrm{ELBO}\geq\mathrm{ELBO}$$<p>所以ELBO其实就是数据Evidence的下界</p>
+</blockquote>
+<p>参考文章：</p>
+<p><a class="link" href="https://blog.csdn.net/qq_51011530/article/details/142322163?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522d8e43efb21d3925df54c4f3e7658ecf0%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=d8e43efb21d3925df54c4f3e7658ecf0&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-142322163-null-null.142%5ev102%5epc_search_result_base1&amp;utm_term=%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0&amp;spm=1018.2226.3001.4187"  target="_blank" rel="noopener"
+    >似然函数解释_CSDN_苏西月</a></p>
 
 </section>
 
@@ -290,7 +440,7 @@
 
 
         <span>
-            最后更新于 Apr 19, 2025 18:12 CST
+            最后更新于 May 10, 2025 22:03 CST
         </span>
     </section></footer>
 
