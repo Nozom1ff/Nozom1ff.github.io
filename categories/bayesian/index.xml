@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Bayesian on Nozom1ff&#39;s Blog</title>
+        <link>http://localhost:1313/categories/bayesian/</link>
+        <description>Recent content in Bayesian on Nozom1ff&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Nozom1ff</copyright>
+        <lastBuildDate>Sat, 10 May 2025 21:24:19 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/bayesian/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Bayesian_Base</title>
+        <link>http://localhost:1313/p/bayesian_base/</link>
+        <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/bayesian_base/</guid>
+        <description>&lt;h2 id=&#34;1-不确定性uncertainty&#34;&gt;1 不确定性（Uncertainty）
+&lt;/h2&gt;&lt;p&gt;传统深度学习算法几乎只能给出一个特定的结果，在一些领域需要让网络给出一个&lt;strong&gt;包含置信度的输出&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;11-认知不确定性epistemic-uncertainty&#34;&gt;1.1 认知不确定性（&lt;strong&gt;Epistemic Uncertainty&lt;/strong&gt;）
+&lt;/h2&gt;&lt;p&gt;​	模型由于对参数（权重）的不确定而产生的不确定性。当训练数据稀疏或与测试数据分布不同时，这种不确定性会较高。BNN通过&lt;strong&gt;权重的分布&lt;/strong&gt;来获得认知不确定性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;BNN中，权重不再是一个数值，通常假设其服从某种概率分布（如高斯分布），后文会详细介绍。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;​	在贝叶斯神经网络中，回归问题的认知不确定性由给定权重  $\omega$ 下模型的平均预测（&lt;strong&gt;不同权重采样导致不同的预测&lt;/strong&gt;）&lt;/p&gt;
+$$U_{epistemic} = Var_{p(w|D)}[f_w(x*)]
+= E_{p(w|D)}[(f_w(x*) - E_{p(w&#39;|D)}[f_{w&#39;}(x*)])^2]$$&lt;p&gt;​	分类问题不确定性可以用熵来衡量：&lt;/p&gt;
+$$H(\mathrm{p})=-\sum_{c=1}^Cp_c\log p_c$$&lt;h2 id=&#34;12-偶然不确定性aleatoric-uncertainty&#34;&gt;1.2 偶然不确定性（&lt;strong&gt;Aleatoric Uncertainty&lt;/strong&gt;）
+&lt;/h2&gt;&lt;p&gt;​	数据本身&lt;strong&gt;固有的噪声&lt;/strong&gt;导致的不确定性。BNN可以通过学习预测分布的方差来评估此不确定性。这里需要使我们的BNN不仅预测均值，还预测与数据相关的方差（即异方差噪声模型，&lt;strong&gt;heteroscedastic&lt;/strong&gt;）,同时修改损失函数：&lt;/p&gt;
+$$L(\theta)=\frac{1}{N}\sum_{i=1}^N\frac{1}{2\sigma(\mathrm{x}_i)^2}\|\mathrm{y}_i-f(\mathrm{x}_i)\|^2+\frac{1}{2}\mathrm{log}\sigma(\mathrm{x}_i)^2$$&lt;p&gt;​	量化公式如下&lt;/p&gt;
+$$U_{aleatoric} = E_{p(w|D)}[σ_{data}^2(x*, w)]$$&lt;h1 id=&#34;2-贝叶斯神经网络bayesian-neural-network&#34;&gt;2 贝叶斯神经网络（Bayesian Neural Network）
+&lt;/h1&gt;$$P(W | D) = [ P(D | W) * P(W) ] / P(D)$$&lt;p&gt;​	条件概率是贝叶斯公式的关键所在，也被称为&lt;strong&gt;似然度&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&#34;21-基本概念&#34;&gt;2.1 基本概念
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;权重（Weights）: 在BNN中，权重 w 不再是固定的点估计值，而是被视为&lt;strong&gt;概率分布&lt;/strong&gt;。这意味着每个权重都有一系列可能的值，每个值都有一定的概率。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;先验分布&lt;/strong&gt;（&lt;strong&gt;Prior Distribution&lt;/strong&gt;）:P(W)，在观察到任何数据之前，我们对权重的初始信念或假设 &lt;em&gt;( 例如，假设权重服从均值为0、方差为1的高斯分布，由于中心极限定理的存在，这个假设是比较合理的)&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;似然函数&lt;/strong&gt;（&lt;strong&gt;Likelihood&lt;/strong&gt;）:假设我们有一个参数为$\theta$的模型，观测到的样本数据为 X = { x 1 , x 2 , … , x n } ，那么似然函数$L(\theta \mid X)$可以表示为：&lt;/p&gt;
+$$ L(\theta \mid X)=P(X\mid \theta)$$&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;似然函数的构造&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;对于 &lt;strong&gt;独立同分布（i.i.d.)&lt;/strong&gt; 的样本 X，可以假设每个样本的概率是独立的，因此似然函数是所有样本概率的乘积：&lt;/p&gt;
+$$L(\theta\mid X)=\prod_{i=1}^nP(x_i\mid\theta)$$&lt;p&gt;因为似然函数通常是概率密度的乘积，而乘积的计算容易引起&lt;strong&gt;浮点数下溢&lt;/strong&gt;，因此我们常常对似然函数取对数&lt;/p&gt;
+$$\ell(\theta\mid X)=\log L(\theta\mid X)=\sum_{i=1}^n\log P(x_i\mid\theta)$$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;证据 (Evidence) /边缘似然 (Marginal Likelihood)&lt;/strong&gt;:P(D),数据 D 的概率，是一个归一化常数。$P(\mathcal{D})=\int_\Theta p(\mathcal{D}|W)p(W)\mathrm{d}W$ 涉及到高维积分很难算！一般采用其他方法近似计算！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;后验分布 (Posterior Distribution)&lt;/strong&gt;：P(W|D),在观察到数据 D 之后，权重的概率分布。这是我们最终想要学习的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;22-训练及近似推断&#34;&gt;2.2 训练及近似推断
+&lt;/h2&gt;&lt;p&gt;​	BNN 的训练过程就是根据训练数据 D 和先验 P(W) 来估计权重的后验分布 P(W | D)，本文主要介绍通过变分推断来近似参数的后验分布。&lt;/p&gt;
+&lt;h3 id=&#34;221-变分推断variational-inference&#34;&gt;2.2.1 变分推断（Variational Inference）
+&lt;/h3&gt;&lt;p&gt;​	变分推断的核心思想：使用变分推断近似网络参数的后验分布的核心思想：&lt;font color=&#39;aqua&#39;&gt;使用一个易于计算的分布$q(\theta^{\prime})$ 近似真实后验分布 $p(\theta)$&lt;/font&gt;。通过最小化两个分布之间的距离，即KL散度，优化得到$q(\theta^{\prime})$。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;KL散度又可称为相对熵，描述两个概率分布的差异或相似性&lt;/p&gt;
+$$H(x)=-\sum_{i=1}^nP(x_i)\log P(x_i)=\sum_{i=1}^nP(x_i)\log\frac{1}{P(x_i)}=H(P)$$$$H(P,Q)=-\sum_{i=1}^nP(x_i)\log Q(x_i)=\sum_{i=1}^nP(x_i)\log\frac{1}{Q(x_i)}$$$$KL(P\mid\mid Q)=H(P,Q)-H(P)=\sum_iP(x_i)\log\frac{P(x_i)}{Q(x_i)}$$&lt;/blockquote&gt;
+$$\min_{q(\theta^{\prime})}\quad\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))$$&lt;h3 id=&#34;222-证据下界evidence-lower-bound-elbo&#34;&gt;2.2.2 证据下界(Evidence Lower Bound, &lt;em&gt;ELBO&lt;/em&gt;)
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;消除不好计算的$p(\theta|\mathcal{D})$&lt;/li&gt;
+&lt;/ul&gt;
+$$\begin{aligned}
+\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D})) &amp; =\int_{q(\theta^{\prime})}q(\theta^{\prime})\log\frac{q(\theta^{\prime})}{p(\theta|\mathcal{D})}\mathrm{d}\theta^{\prime} \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log\frac{q(\theta^{\prime})}{p(\theta|\mathcal{D})}\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log p(\theta|\mathcal{D})\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log\frac{p(\theta,\mathcal{D})}{p(\mathcal{D})}\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log p(\theta,\mathcal{D})+\log p(\mathcal{D})\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})]-\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta,\mathcal{D})]+\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]
+\end{aligned}$$&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;令&lt;/p&gt;
+$$\mathrm{ELBO}=\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}p(\theta,\mathcal{D})]-\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}q(\theta^{\prime})]$$&lt;p&gt;  得到&lt;/p&gt;
+$$\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]=\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))+\mathrm{ELBO}$$&lt;p&gt;由于$p({\mathcal{D})}$与$q(\theta^{\prime})$&lt;strong&gt;无关&lt;/strong&gt;，由此&lt;strong&gt;可以认为等式左方是一个常数&lt;/strong&gt;，则欲使KL散度最小化，等价于使ELBO最大化，此时优化目标变为&lt;/p&gt;
+$$\max_{q(\theta^{\prime})}\quad\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta,\mathcal{D})]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})]$$&lt;p&gt;其中&lt;/p&gt;
+$$\begin{aligned}
+   &amp; \mathbb{E}_{q(\theta^{\prime})}\left[\log p(\theta,\mathcal{D})\right]-\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})\right] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}(p(\mathcal{D}|\theta)p(\theta))]-\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}q(\theta^{\prime})] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D}|\theta)+\log p(\theta)]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D}|\theta)]+\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta)]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log p(\mathcal{D}|\theta)\right]-\mathrm{KL}(q(\theta^{\prime})||p(\theta))
+  \end{aligned}$$&lt;p&gt;即优化目标变为&lt;/p&gt;
+$$\max_{q(\theta^{\prime})}\quad\mathbb{E}_{q(\theta^{\prime})}\left[\log p(\mathcal{D}|\theta)\right]-\mathrm{KL}(q(\theta^{\prime})||p(\theta))$$&lt;p&gt;这个优化目标表达了对$q(\theta^{\prime})$&lt;strong&gt;两个要求&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一项期望尽量大：在似然上的期望越大越好，这需要$q(\theta^{\prime})$能尽可能准确地描述数据集潜在的规律&lt;/li&gt;
+&lt;li&gt;第二项需要KL散度尽量小，即与真实分布$p(\theta)$越相似越好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;为什么叫做Evidence Lower Bound?&lt;/p&gt;
+&lt;p&gt;因为KL散度always大于等于0，所以有以下不等式：&lt;/p&gt;
+$$\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]=\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))+\mathrm{ELBO}\geq\mathrm{ELBO}$$&lt;p&gt;所以ELBO其实就是数据Evidence的下界&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;参考文章：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_51011530/article/details/142322163?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522d8e43efb21d3925df54c4f3e7658ecf0%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;amp;request_id=d8e43efb21d3925df54c4f3e7658ecf0&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-142322163-null-null.142%5ev102%5epc_search_result_base1&amp;amp;utm_term=%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0&amp;amp;spm=1018.2226.3001.4187&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;似然函数解释_CSDN_苏西月&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

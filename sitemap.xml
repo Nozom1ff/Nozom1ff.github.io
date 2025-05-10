@@ -2,49 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://Nozom1ff.github.io/categories/</loc>
-    <lastmod>2025-04-23T10:43:11+08:00</lastmod>
+    <loc>http://localhost:1313/categories/bayesian/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/p/llm_quantization/</loc>
-    <lastmod>2025-04-23T10:43:11+08:00</lastmod>
+    <loc>http://localhost:1313/p/bayesian_base/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/post/</loc>
-    <lastmod>2025-04-23T10:43:25+08:00</lastmod>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/page/</loc>
+    <loc>http://localhost:1313/p/llm_distiilation/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/p/llm_quantization/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/post/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/p/rag-%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/page/</loc>
     <lastmod>2025-04-19T18:12:10+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/archives/</loc>
+    <loc>http://localhost:1313/archives/</loc>
     <lastmod>2024-12-03T10:42:02+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/tags/emoji/</loc>
-    <lastmod>2025-04-19T18:12:10+08:00</lastmod>
+    <loc>http://localhost:1313/tags/emoji/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/p/emoji-support/</loc>
-    <lastmod>2025-04-19T18:12:10+08:00</lastmod>
+    <loc>http://localhost:1313/p/emoji-support/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/categories/nothing/</loc>
-    <lastmod>2025-04-19T18:12:10+08:00</lastmod>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/tags/</loc>
-    <lastmod>2025-04-19T18:12:10+08:00</lastmod>
-  </url><url>
-    <loc>https://Nozom1ff.github.io/categories/%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2025-04-19T18:12:10+08:00</lastmod>
-  </url><url>
-    <loc>https://Nozom1ff.github.io/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2024-12-03T10:42:02+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/categories/llm/</loc>
-    <lastmod>2025-04-23T10:41:12+08:00</lastmod>
+    <loc>http://localhost:1313/categories/llm/</loc>
+    <lastmod>2025-05-10T21:24:19+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/categories/test/</loc>
+    <loc>http://localhost:1313/categories/test/</loc>
     <lastmod>2024-12-03T10:42:02+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
+    <loc>http://localhost:1313/%E5%85%B3%E4%BA%8E%E6%88%91/</loc>
     <lastmod>2025-04-19T18:12:10+08:00</lastmod>
   </url><url>
-    <loc>https://Nozom1ff.github.io/search/</loc>
+    <loc>http://localhost:1313/search/</loc>
     <lastmod>2024-12-03T10:42:02+08:00</lastmod>
   </url>
 </urlset>

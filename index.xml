@@ -2,16 +2,167 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Nozom1ff&#39;s Blog</title>
-        <link>https://Nozom1ff.github.io/</link>
+        <link>http://localhost:1313/</link>
         <description>Recent content on Nozom1ff&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <copyright>Nozom1ff</copyright><atom:link href="https://Nozom1ff.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>LLM_Quantization</title>
-        <link>https://Nozom1ff.github.io/p/llm_quantization/</link>
+        <copyright>Nozom1ff</copyright><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Bayesian_Base</title>
+        <link>http://localhost:1313/p/bayesian_base/</link>
         <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://Nozom1ff.github.io/p/llm_quantization/</guid>
+        <guid>http://localhost:1313/p/bayesian_base/</guid>
+        <description>&lt;h2 id=&#34;1-不确定性uncertainty&#34;&gt;1 不确定性（Uncertainty）
+&lt;/h2&gt;&lt;p&gt;传统深度学习算法几乎只能给出一个特定的结果，在一些领域需要让网络给出一个&lt;strong&gt;包含置信度的输出&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;11-认知不确定性epistemic-uncertainty&#34;&gt;1.1 认知不确定性（&lt;strong&gt;Epistemic Uncertainty&lt;/strong&gt;）
+&lt;/h2&gt;&lt;p&gt;​	模型由于对参数（权重）的不确定而产生的不确定性。当训练数据稀疏或与测试数据分布不同时，这种不确定性会较高。BNN通过&lt;strong&gt;权重的分布&lt;/strong&gt;来获得认知不确定性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;BNN中，权重不再是一个数值，通常假设其服从某种概率分布（如高斯分布），后文会详细介绍。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;​	在贝叶斯神经网络中，回归问题的认知不确定性由给定权重  $\omega$ 下模型的平均预测（&lt;strong&gt;不同权重采样导致不同的预测&lt;/strong&gt;）&lt;/p&gt;
+$$U_{epistemic} = Var_{p(w|D)}[f_w(x*)]
+= E_{p(w|D)}[(f_w(x*) - E_{p(w&#39;|D)}[f_{w&#39;}(x*)])^2]$$&lt;p&gt;​	分类问题不确定性可以用熵来衡量：&lt;/p&gt;
+$$H(\mathrm{p})=-\sum_{c=1}^Cp_c\log p_c$$&lt;h2 id=&#34;12-偶然不确定性aleatoric-uncertainty&#34;&gt;1.2 偶然不确定性（&lt;strong&gt;Aleatoric Uncertainty&lt;/strong&gt;）
+&lt;/h2&gt;&lt;p&gt;​	数据本身&lt;strong&gt;固有的噪声&lt;/strong&gt;导致的不确定性。BNN可以通过学习预测分布的方差来评估此不确定性。这里需要使我们的BNN不仅预测均值，还预测与数据相关的方差（即异方差噪声模型，&lt;strong&gt;heteroscedastic&lt;/strong&gt;）,同时修改损失函数：&lt;/p&gt;
+$$L(\theta)=\frac{1}{N}\sum_{i=1}^N\frac{1}{2\sigma(\mathrm{x}_i)^2}\|\mathrm{y}_i-f(\mathrm{x}_i)\|^2+\frac{1}{2}\mathrm{log}\sigma(\mathrm{x}_i)^2$$&lt;p&gt;​	量化公式如下&lt;/p&gt;
+$$U_{aleatoric} = E_{p(w|D)}[σ_{data}^2(x*, w)]$$&lt;h1 id=&#34;2-贝叶斯神经网络bayesian-neural-network&#34;&gt;2 贝叶斯神经网络（Bayesian Neural Network）
+&lt;/h1&gt;$$P(W | D) = [ P(D | W) * P(W) ] / P(D)$$&lt;p&gt;​	条件概率是贝叶斯公式的关键所在，也被称为&lt;strong&gt;似然度&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&#34;21-基本概念&#34;&gt;2.1 基本概念
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;权重（Weights）: 在BNN中，权重 w 不再是固定的点估计值，而是被视为&lt;strong&gt;概率分布&lt;/strong&gt;。这意味着每个权重都有一系列可能的值，每个值都有一定的概率。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;先验分布&lt;/strong&gt;（&lt;strong&gt;Prior Distribution&lt;/strong&gt;）:P(W)，在观察到任何数据之前，我们对权重的初始信念或假设 &lt;em&gt;( 例如，假设权重服从均值为0、方差为1的高斯分布，由于中心极限定理的存在，这个假设是比较合理的)&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;似然函数&lt;/strong&gt;（&lt;strong&gt;Likelihood&lt;/strong&gt;）:假设我们有一个参数为$\theta$的模型，观测到的样本数据为 X = { x 1 , x 2 , … , x n } ，那么似然函数$L(\theta \mid X)$可以表示为：&lt;/p&gt;
+$$ L(\theta \mid X)=P(X\mid \theta)$$&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;似然函数的构造&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;对于 &lt;strong&gt;独立同分布（i.i.d.)&lt;/strong&gt; 的样本 X，可以假设每个样本的概率是独立的，因此似然函数是所有样本概率的乘积：&lt;/p&gt;
+$$L(\theta\mid X)=\prod_{i=1}^nP(x_i\mid\theta)$$&lt;p&gt;因为似然函数通常是概率密度的乘积，而乘积的计算容易引起&lt;strong&gt;浮点数下溢&lt;/strong&gt;，因此我们常常对似然函数取对数&lt;/p&gt;
+$$\ell(\theta\mid X)=\log L(\theta\mid X)=\sum_{i=1}^n\log P(x_i\mid\theta)$$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;证据 (Evidence) /边缘似然 (Marginal Likelihood)&lt;/strong&gt;:P(D),数据 D 的概率，是一个归一化常数。$P(\mathcal{D})=\int_\Theta p(\mathcal{D}|W)p(W)\mathrm{d}W$ 涉及到高维积分很难算！一般采用其他方法近似计算！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;后验分布 (Posterior Distribution)&lt;/strong&gt;：P(W|D),在观察到数据 D 之后，权重的概率分布。这是我们最终想要学习的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;22-训练及近似推断&#34;&gt;2.2 训练及近似推断
+&lt;/h2&gt;&lt;p&gt;​	BNN 的训练过程就是根据训练数据 D 和先验 P(W) 来估计权重的后验分布 P(W | D)，本文主要介绍通过变分推断来近似参数的后验分布。&lt;/p&gt;
+&lt;h3 id=&#34;221-变分推断variational-inference&#34;&gt;2.2.1 变分推断（Variational Inference）
+&lt;/h3&gt;&lt;p&gt;​	变分推断的核心思想：使用变分推断近似网络参数的后验分布的核心思想：&lt;font color=&#39;aqua&#39;&gt;使用一个易于计算的分布$q(\theta^{\prime})$ 近似真实后验分布 $p(\theta)$&lt;/font&gt;。通过最小化两个分布之间的距离，即KL散度，优化得到$q(\theta^{\prime})$。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;KL散度又可称为相对熵，描述两个概率分布的差异或相似性&lt;/p&gt;
+$$H(x)=-\sum_{i=1}^nP(x_i)\log P(x_i)=\sum_{i=1}^nP(x_i)\log\frac{1}{P(x_i)}=H(P)$$$$H(P,Q)=-\sum_{i=1}^nP(x_i)\log Q(x_i)=\sum_{i=1}^nP(x_i)\log\frac{1}{Q(x_i)}$$$$KL(P\mid\mid Q)=H(P,Q)-H(P)=\sum_iP(x_i)\log\frac{P(x_i)}{Q(x_i)}$$&lt;/blockquote&gt;
+$$\min_{q(\theta^{\prime})}\quad\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))$$&lt;h3 id=&#34;222-证据下界evidence-lower-bound-elbo&#34;&gt;2.2.2 证据下界(Evidence Lower Bound, &lt;em&gt;ELBO&lt;/em&gt;)
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;消除不好计算的$p(\theta|\mathcal{D})$&lt;/li&gt;
+&lt;/ul&gt;
+$$\begin{aligned}
+\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D})) &amp; =\int_{q(\theta^{\prime})}q(\theta^{\prime})\log\frac{q(\theta^{\prime})}{p(\theta|\mathcal{D})}\mathrm{d}\theta^{\prime} \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log\frac{q(\theta^{\prime})}{p(\theta|\mathcal{D})}\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log p(\theta|\mathcal{D})\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log\frac{p(\theta,\mathcal{D})}{p(\mathcal{D})}\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})-\log p(\theta,\mathcal{D})+\log p(\mathcal{D})\right] \\
+ &amp; =\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})]-\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta,\mathcal{D})]+\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]
+\end{aligned}$$&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;令&lt;/p&gt;
+$$\mathrm{ELBO}=\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}p(\theta,\mathcal{D})]-\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}q(\theta^{\prime})]$$&lt;p&gt;  得到&lt;/p&gt;
+$$\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]=\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))+\mathrm{ELBO}$$&lt;p&gt;由于$p({\mathcal{D})}$与$q(\theta^{\prime})$&lt;strong&gt;无关&lt;/strong&gt;，由此&lt;strong&gt;可以认为等式左方是一个常数&lt;/strong&gt;，则欲使KL散度最小化，等价于使ELBO最大化，此时优化目标变为&lt;/p&gt;
+$$\max_{q(\theta^{\prime})}\quad\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta,\mathcal{D})]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})]$$&lt;p&gt;其中&lt;/p&gt;
+$$\begin{aligned}
+   &amp; \mathbb{E}_{q(\theta^{\prime})}\left[\log p(\theta,\mathcal{D})\right]-\mathbb{E}_{q(\theta^{\prime})}\left[\log q(\theta^{\prime})\right] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}(p(\mathcal{D}|\theta)p(\theta))]-\mathbb{E}_{q(\theta^{\prime})}[\operatorname{log}q(\theta^{\prime})] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D}|\theta)+\log p(\theta)]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D}|\theta)]+\mathbb{E}_{q(\theta^{\prime})}[\log p(\theta)]-\mathbb{E}_{q(\theta^{\prime})}[\log q(\theta^{\prime})] \\
+   &amp; =\mathbb{E}_{q(\theta^{\prime})}\left[\log p(\mathcal{D}|\theta)\right]-\mathrm{KL}(q(\theta^{\prime})||p(\theta))
+  \end{aligned}$$&lt;p&gt;即优化目标变为&lt;/p&gt;
+$$\max_{q(\theta^{\prime})}\quad\mathbb{E}_{q(\theta^{\prime})}\left[\log p(\mathcal{D}|\theta)\right]-\mathrm{KL}(q(\theta^{\prime})||p(\theta))$$&lt;p&gt;这个优化目标表达了对$q(\theta^{\prime})$&lt;strong&gt;两个要求&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一项期望尽量大：在似然上的期望越大越好，这需要$q(\theta^{\prime})$能尽可能准确地描述数据集潜在的规律&lt;/li&gt;
+&lt;li&gt;第二项需要KL散度尽量小，即与真实分布$p(\theta)$越相似越好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;为什么叫做Evidence Lower Bound?&lt;/p&gt;
+&lt;p&gt;因为KL散度always大于等于0，所以有以下不等式：&lt;/p&gt;
+$$\mathbb{E}_{q(\theta^{\prime})}[\log p(\mathcal{D})]=\mathrm{KL}(q(\theta^{\prime})||p(\theta|\mathcal{D}))+\mathrm{ELBO}\geq\mathrm{ELBO}$$&lt;p&gt;所以ELBO其实就是数据Evidence的下界&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;参考文章：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_51011530/article/details/142322163?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522d8e43efb21d3925df54c4f3e7658ecf0%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;amp;request_id=d8e43efb21d3925df54c4f3e7658ecf0&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-142322163-null-null.142%5ev102%5epc_search_result_base1&amp;amp;utm_term=%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0&amp;amp;spm=1018.2226.3001.4187&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;似然函数解释_CSDN_苏西月&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>LLM_Distiilation</title>
+        <link>http://localhost:1313/p/llm_distiilation/</link>
+        <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/llm_distiilation/</guid>
+        <description>&lt;h2 id=&#34;1-知识蒸馏&#34;&gt;1. 知识蒸馏
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/Figure%202.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Figure 2&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;用训练好的教师模型（Teacher Network）来训练小的学生模型（Student Network），学生网络将教师网络的输出结果当成正确答案来训练。该方法的好处是，&lt;font color=&#39;orange&#39;&gt;教师网络的输出结果对于小网络模型来说更容易学习&lt;/font&gt;；一些没有用于学生网络训练而用于教师网络训练的样本依然可以很好地被学生网络识别出来。&lt;/p&gt;
+&lt;p&gt;硬标签是真实Label，软标签是教师模型输出的概率分布；硬损失是学生模型输出与硬标签的&lt;font color=&#39;orange&#39;&gt;&lt;strong&gt;交叉熵损失&lt;/strong&gt;&lt;/font&gt;，软损失是计算学生模型和软标签之间的&lt;font color=&#39;orange&#39;&gt;KL散度&lt;/font&gt;。Total Loss公式如下，通过调节 &lt;em&gt;λ&lt;/em&gt;，可以&lt;strong&gt;控制学生模型在多大程度上依赖教师模型的指导与真实标签&lt;/strong&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$Total Loss=\lambda*SoftLoss+(1-\lambda)*HardLoss$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;技巧：在SoftMax函数加上&lt;strong&gt;temperature&lt;/strong&gt;可以是网络新输出的结果&lt;font color=&#39;orange&#39;&gt;更加平滑&lt;/font&gt;、更接近（&lt;font color=&#39;orange&#39;&gt;控制概率分布&lt;/font&gt;），让学生网络可以学习到更相近的输出值。(图片来源b站同济子豪兄)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/Figure%203.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Figure 3&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;当使用LLM作为教师网络时，根据是否强调将LLM的涌现能力（Emergent Abilities, EA）蒸馏到小型语言模型中来进行分类，可以把知识蒸馏分为两类：&lt;font color=&#39;orange&#39;&gt;标准知识蒸馏（Standard KD）&lt;/font&gt;和&lt;font color=&#39;orange&#39;&gt;基于涌现能力的知识蒸馏（EA-based KD）&lt;/font&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;涌现能力是指在较小的模型中不出现，而在较大的模型中出现的能力，则可以称之为“涌现能力“, 这种现象也叫做规模效应；&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;根据蒸馏方法可以把知识蒸馏分为两类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一种是白盒蒸馏，教师模型一般是内部可见的模型，学生可以&lt;font color=&#39;orange&#39;&gt;学习教师输出时的内部信息（logits等）来学习输出策略&lt;/font&gt;；除了比较输出logits，知识蒸馏还可以匹配教师网络和学生网络在中间层的特征、权重、注意力图等等&lt;/li&gt;
+&lt;li&gt;另一种是黑盒知识蒸馏(Black-box KD)，教师模型只有输出内容可见，因此这种蒸馏则会&lt;font color=&#39;orange&#39;&gt;把学习的重点放在教师输出的内容和输出的特殊行为上&lt;/font&gt;，比如学习CoT等涌现能力。不论哪一种蒸馏，都是将大模型知识注入小模型的方式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;SFT（Supervised Fine-Tuning）是指在源数据集上预训练一个神经网络模型（&lt;font color=&#39;red&#39;&gt;源模型&lt;/font&gt;）。然后创建一个新的模型（&lt;font color=&#39;red&#39;&gt;目标模型&lt;/font&gt;），目标模型复制了源模型上&lt;strong&gt;除了输出层外&lt;/strong&gt;的所有模型设计以及参数，这些参数包含了模型在源数据集上学习到的知识，且这些知识同样适用于目标数据集。微调时为目标模型添加对应于目标数据集的输出层，并从头训练（其余参数微调）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;2-白盒蒸馏&#34;&gt;2. 白盒蒸馏
+&lt;/h2&gt;&lt;p&gt;参考文章：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/datawhalechina/llm-deploy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;llm-deploy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://datawhalechina.github.io/awesome-compression/#/ch06/ch06&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Awesome Compression&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/sinat_39620217/article/details/131751780?ops_request_misc=%257B%2522request%255Fid%2522%253A%25228d68bc05d39894ea4a08f97d8b644ca7%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;amp;request_id=8d68bc05d39894ea4a08f97d8b644ca7&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-131751780-null-null.142%5ev102%5epc_search_result_base1&amp;amp;utm_term=SFT&amp;amp;spm=1018.2226.3001.4187&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;人工智能大语言模型微调技术：SFT 监督微调、LoRA 微调方法、P-tuning v2 微调方法、Freeze 监督微调方法&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>LLM_Quantization</title>
+        <link>http://localhost:1313/p/llm_quantization/</link>
+        <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/llm_quantization/</guid>
         <description>&lt;h2 id=&#34;1-为什么做量化&#34;&gt;1. 为什么做量化
 &lt;/h2&gt;&lt;p&gt;通过改变参数存储的类型（&lt;strong&gt;从较大比特的存储方式转化为较小比特的存储方式，变化参数的粒度&lt;/strong&gt;），实现模型大小的压缩，已达到以下目的：&lt;/p&gt;
 &lt;ul&gt;
@@ -352,28 +503,79 @@
 </description>
         </item>
         <item>
+        <title>RAG 学习</title>
+        <link>http://localhost:1313/p/rag-%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/rag-%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;h3 id=&#34;rag架构&#34;&gt;RAG架构
+&lt;/h3&gt;&lt;p&gt;通用基础大模型的问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;知识滞后&lt;/li&gt;
+&lt;li&gt;出现幻觉&lt;/li&gt;
+&lt;li&gt;数据安全/不可信&lt;/li&gt;
+&lt;li&gt;缺乏专业知识&lt;/li&gt;
+&lt;li&gt;长文本处理能力弱&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;RAG(Retrieval Augmented Generation):检索技术+LLM&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;rag工作流程&#34;&gt;RAG工作流程
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;数据处理阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;清洗处理原始数据 → 数据转换为&lt;font color=&#39;aqua&#39;&gt;检索模型&lt;/font&gt;可以使用的格式 → 数据存储到对应数据库中&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;检索阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;输入用户的问题到检索系统中，并从数据库中检索相关信息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;增强阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;对检索到的信息进行处理和增强以便模型更好地&lt;font color=&#34;aqua&#34;&gt;理解应用&lt;/font&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;生产阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;将增强后的信息输入到生产模型中使其生成答案&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;rag-vs-finetune&#34;&gt;RAG vs Finetune
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;微调&lt;/strong&gt;：通过在特点数据集上进一步训练LLM以提升模型在特定任务上的表现&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/image-20250420122835572.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250420122835572&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>归档</title>
-        <link>https://Nozom1ff.github.io/archives/</link>
+        <link>http://localhost:1313/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://Nozom1ff.github.io/archives/</guid>
+        <guid>http://localhost:1313/archives/</guid>
         <description></description>
         </item>
         <item>
         <title>Emoji Support</title>
-        <link>https://Nozom1ff.github.io/p/emoji-support/</link>
+        <link>http://localhost:1313/p/emoji-support/</link>
         <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://Nozom1ff.github.io/p/emoji-support/</guid>
+        <guid>http://localhost:1313/p/emoji-support/</guid>
         <description>&lt;h1 id=&#34;hello-world&#34;&gt;Hello World!
 &lt;/h1&gt;</description>
         </item>
         <item>
         <title>关于我</title>
-        <link>https://Nozom1ff.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/</link>
+        <link>http://localhost:1313/%E5%85%B3%E4%BA%8E%E6%88%91/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://Nozom1ff.github.io/%E5%85%B3%E4%BA%8E%E6%88%91/</guid>
+        <guid>http://localhost:1313/%E5%85%B3%E4%BA%8E%E6%88%91/</guid>
         <description>&lt;p&gt;2025.09 - 2028.06 ​​Master of Electronic Information in Beijing University of Aeronautics and Astronautics&lt;/p&gt;
 &lt;p&gt;2021.09 - 2025.06 Bachelor of Software Engineering in Jilin University&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;A Roguelike Lover&lt;/em&gt; &lt;span class=&#34;nowrap&#34;&gt;&lt;span class=&#34;emojify&#34;&gt;👾&lt;/span&gt;&lt;/p&gt;
@@ -381,10 +583,10 @@
         </item>
         <item>
         <title>搜索</title>
-        <link>https://Nozom1ff.github.io/search/</link>
+        <link>http://localhost:1313/search/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://Nozom1ff.github.io/search/</guid>
+        <guid>http://localhost:1313/search/</guid>
         <description></description>
         </item>
         

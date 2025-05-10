@@ -2,16 +2,73 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>LLM on Nozom1ff&#39;s Blog</title>
-        <link>https://Nozom1ff.github.io/categories/llm/</link>
+        <link>http://localhost:1313/categories/llm/</link>
         <description>Recent content in LLM on Nozom1ff&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <copyright>Nozom1ff</copyright><atom:link href="https://Nozom1ff.github.io/categories/llm/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>LLM_Quantization</title>
-        <link>https://Nozom1ff.github.io/p/llm_quantization/</link>
+        <copyright>Nozom1ff</copyright><atom:link href="http://localhost:1313/categories/llm/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>LLM_Distiilation</title>
+        <link>http://localhost:1313/p/llm_distiilation/</link>
         <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://Nozom1ff.github.io/p/llm_quantization/</guid>
+        <guid>http://localhost:1313/p/llm_distiilation/</guid>
+        <description>&lt;h2 id=&#34;1-知识蒸馏&#34;&gt;1. 知识蒸馏
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/Figure%202.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Figure 2&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;用训练好的教师模型（Teacher Network）来训练小的学生模型（Student Network），学生网络将教师网络的输出结果当成正确答案来训练。该方法的好处是，&lt;font color=&#39;orange&#39;&gt;教师网络的输出结果对于小网络模型来说更容易学习&lt;/font&gt;；一些没有用于学生网络训练而用于教师网络训练的样本依然可以很好地被学生网络识别出来。&lt;/p&gt;
+&lt;p&gt;硬标签是真实Label，软标签是教师模型输出的概率分布；硬损失是学生模型输出与硬标签的&lt;font color=&#39;orange&#39;&gt;&lt;strong&gt;交叉熵损失&lt;/strong&gt;&lt;/font&gt;，软损失是计算学生模型和软标签之间的&lt;font color=&#39;orange&#39;&gt;KL散度&lt;/font&gt;。Total Loss公式如下，通过调节 &lt;em&gt;λ&lt;/em&gt;，可以&lt;strong&gt;控制学生模型在多大程度上依赖教师模型的指导与真实标签&lt;/strong&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$Total Loss=\lambda*SoftLoss+(1-\lambda)*HardLoss$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;技巧：在SoftMax函数加上&lt;strong&gt;temperature&lt;/strong&gt;可以是网络新输出的结果&lt;font color=&#39;orange&#39;&gt;更加平滑&lt;/font&gt;、更接近（&lt;font color=&#39;orange&#39;&gt;控制概率分布&lt;/font&gt;），让学生网络可以学习到更相近的输出值。(图片来源b站同济子豪兄)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/Figure%203.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Figure 3&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;当使用LLM作为教师网络时，根据是否强调将LLM的涌现能力（Emergent Abilities, EA）蒸馏到小型语言模型中来进行分类，可以把知识蒸馏分为两类：&lt;font color=&#39;orange&#39;&gt;标准知识蒸馏（Standard KD）&lt;/font&gt;和&lt;font color=&#39;orange&#39;&gt;基于涌现能力的知识蒸馏（EA-based KD）&lt;/font&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;涌现能力是指在较小的模型中不出现，而在较大的模型中出现的能力，则可以称之为“涌现能力“, 这种现象也叫做规模效应；&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;根据蒸馏方法可以把知识蒸馏分为两类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一种是白盒蒸馏，教师模型一般是内部可见的模型，学生可以&lt;font color=&#39;orange&#39;&gt;学习教师输出时的内部信息（logits等）来学习输出策略&lt;/font&gt;；除了比较输出logits，知识蒸馏还可以匹配教师网络和学生网络在中间层的特征、权重、注意力图等等&lt;/li&gt;
+&lt;li&gt;另一种是黑盒知识蒸馏(Black-box KD)，教师模型只有输出内容可见，因此这种蒸馏则会&lt;font color=&#39;orange&#39;&gt;把学习的重点放在教师输出的内容和输出的特殊行为上&lt;/font&gt;，比如学习CoT等涌现能力。不论哪一种蒸馏，都是将大模型知识注入小模型的方式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;SFT（Supervised Fine-Tuning）是指在源数据集上预训练一个神经网络模型（&lt;font color=&#39;red&#39;&gt;源模型&lt;/font&gt;）。然后创建一个新的模型（&lt;font color=&#39;red&#39;&gt;目标模型&lt;/font&gt;），目标模型复制了源模型上&lt;strong&gt;除了输出层外&lt;/strong&gt;的所有模型设计以及参数，这些参数包含了模型在源数据集上学习到的知识，且这些知识同样适用于目标数据集。微调时为目标模型添加对应于目标数据集的输出层，并从头训练（其余参数微调）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;2-白盒蒸馏&#34;&gt;2. 白盒蒸馏
+&lt;/h2&gt;&lt;p&gt;参考文章：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/datawhalechina/llm-deploy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;llm-deploy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://datawhalechina.github.io/awesome-compression/#/ch06/ch06&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Awesome Compression&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/sinat_39620217/article/details/131751780?ops_request_misc=%257B%2522request%255Fid%2522%253A%25228d68bc05d39894ea4a08f97d8b644ca7%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;amp;request_id=8d68bc05d39894ea4a08f97d8b644ca7&amp;amp;biz_id=0&amp;amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-131751780-null-null.142%5ev102%5epc_search_result_base1&amp;amp;utm_term=SFT&amp;amp;spm=1018.2226.3001.4187&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;人工智能大语言模型微调技术：SFT 监督微调、LoRA 微调方法、P-tuning v2 微调方法、Freeze 监督微调方法&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>LLM_Quantization</title>
+        <link>http://localhost:1313/p/llm_quantization/</link>
+        <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/llm_quantization/</guid>
         <description>&lt;h2 id=&#34;1-为什么做量化&#34;&gt;1. 为什么做量化
 &lt;/h2&gt;&lt;p&gt;通过改变参数存储的类型（&lt;strong&gt;从较大比特的存储方式转化为较小比特的存储方式，变化参数的粒度&lt;/strong&gt;），实现模型大小的压缩，已达到以下目的：&lt;/p&gt;
 &lt;ul&gt;
@@ -349,6 +406,57 @@
     &gt;一文搞懂神经网络模型量化&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>RAG 学习</title>
+        <link>http://localhost:1313/p/rag-%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Sun, 20 Apr 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/rag-%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;h3 id=&#34;rag架构&#34;&gt;RAG架构
+&lt;/h3&gt;&lt;p&gt;通用基础大模型的问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;知识滞后&lt;/li&gt;
+&lt;li&gt;出现幻觉&lt;/li&gt;
+&lt;li&gt;数据安全/不可信&lt;/li&gt;
+&lt;li&gt;缺乏专业知识&lt;/li&gt;
+&lt;li&gt;长文本处理能力弱&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;RAG(Retrieval Augmented Generation):检索技术+LLM&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;rag工作流程&#34;&gt;RAG工作流程
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;数据处理阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;清洗处理原始数据 → 数据转换为&lt;font color=&#39;aqua&#39;&gt;检索模型&lt;/font&gt;可以使用的格式 → 数据存储到对应数据库中&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;检索阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;输入用户的问题到检索系统中，并从数据库中检索相关信息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;增强阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;对检索到的信息进行处理和增强以便模型更好地&lt;font color=&#34;aqua&#34;&gt;理解应用&lt;/font&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;生产阶段&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;将增强后的信息输入到生产模型中使其生成答案&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;rag-vs-finetune&#34;&gt;RAG vs Finetune
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;微调&lt;/strong&gt;：通过在特点数据集上进一步训练LLM以提升模型在特定任务上的表现&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/image-20250420122835572.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250420122835572&#34;
+	
+	
+&gt;&lt;/p&gt;
 </description>
         </item>
         
