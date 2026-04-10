@@ -328,8 +328,8 @@
         <mxCell id="WZQZ3iQ7XR6_r25m7NWt-84" parent="aN83DGbymWm0B96Egb2V-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;fontFamily=Times New Roman;" value="Text" vertex="1">
           <mxGeometry height="30" width="60" x="790" y="900" as="geometry" />
         </mxCell>
-        <mxCell id="ZNFVqUGf9MMrudGl_lCM-0" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontSize=16;fontStyle=1;fillColor=none;strokeColor=#006EAF;fontColor=#333333;fillStyle=cross-hatch;align=left;fontFamily=Times New Roman;" value="model init" vertex="1">
-          <mxGeometry height="640" width="720" x="-1160" y="60" as="geometry" />
+        <mxCell id="ZNFVqUGf9MMrudGl_lCM-0" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontSize=16;fontStyle=1;fillColor=none;strokeColor=#006EAF;fontColor=#333333;fillStyle=cross-hatch;align=center;fontFamily=Times New Roman;strokeWidth=2;" value="model init" vertex="1">
+          <mxGeometry height="640" width="720" x="-1100" y="60" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-51" parent="ZNFVqUGf9MMrudGl_lCM-0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=8 8;fillStyle=dashed;strokeColor=#7EA6E0;strokeWidth=2;" value="" vertex="1">
           <mxGeometry height="240" width="175" x="200" y="100" as="geometry" />
@@ -356,7 +356,7 @@
           <mxGeometry height="30" width="130" x="210" y="130" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-42" parent="ZNFVqUGf9MMrudGl_lCM-0" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=9;" value="fstat(fd, &amp;amp;sb);&amp;nbsp; // 获取文件大小&lt;br&gt;&amp;nbsp; raw_model_data_-&amp;gt;data = mmap(nullptr, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);&lt;br&gt;&amp;nbsp; 关键设计：使用&lt;span style=&quot;color: rgb(255, 51, 51);&quot;&gt; mmap &lt;/span&gt;而非 read 的优势：&lt;br&gt;&amp;nbsp; - 按需加载：操作系统按页面加载数据不占用过多内存&lt;br&gt;&amp;nbsp; - 零拷贝：直接映射到进程地址空间&lt;br&gt;&amp;nbsp; - 缓存友好：利用系统页面缓存" vertex="1">
-          <mxGeometry height="140" width="230" x="412" y="40" as="geometry" />
+          <mxGeometry height="140" width="230" x="467" y="40" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-50" edge="1" parent="ZNFVqUGf9MMrudGl_lCM-0" source="O23gL1ym4Lucq9g-aiCs-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#007FFF;" target="O23gL1ym4Lucq9g-aiCs-48">
           <mxGeometry relative="1" as="geometry" />
@@ -365,7 +365,7 @@
           <mxGeometry height="30" width="130" x="210" y="210.00000000000003" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-46" parent="ZNFVqUGf9MMrudGl_lCM-0" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=none;strokeColor=#7EA6E0;strokeWidth=3;" value="&lt;div align=&quot;left&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;if (is_quant_model_) {&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; fread(&amp;amp;group_size_, sizeof(int32_t), 1, file);&lt;br&gt;&amp;nbsp; } // 如果是量化模型 需要读取 group_size_&lt;/font&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;if (!is_quant_model_) {&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; raw_model_data_ = std::make_shared&amp;lt;RawModelDataFp32&amp;gt;();&lt;br&gt;&amp;nbsp; } else {&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; raw_model_data_ = std::make_shared&amp;lt;RawModelDataInt8&amp;gt;();&lt;br&gt;&amp;nbsp; } // 根据是否量化选择不同的数据结构。&lt;/font&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font face=&quot;Times New Roman&quot;&gt;if (!is_quant_model_) {&lt;br&gt;&amp;nbsp; &amp;nbsp; raw_model_data_-&amp;gt;weight_data =&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; static_cast&amp;lt;int8_t*&amp;gt;(raw_model_data_-&amp;gt;data) + sizeof(ModelConfig);&lt;br&gt;&amp;nbsp; } else {&lt;br&gt;&amp;nbsp; &amp;nbsp; raw_model_data_-&amp;gt;weight_data =&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; static_cast&amp;lt;int8_t*&amp;gt;(raw_model_data_-&amp;gt;data) + sizeof(ModelConfig) + &lt;span style=&quot;color: rgb(255, 51, 51);&quot;&gt;sizeof(group_size_);&lt;/span&gt;&lt;br&gt;&amp;nbsp; }// int8_t* 保证加减操作按字节进行&lt;/font&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="300" width="257" x="440" y="190" as="geometry" />
+          <mxGeometry height="300" width="257" x="440" y="200" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-47" edge="1" parent="ZNFVqUGf9MMrudGl_lCM-0" source="O23gL1ym4Lucq9g-aiCs-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.008;entryY=0.421;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;" target="O23gL1ym4Lucq9g-aiCs-46">
           <mxGeometry relative="1" as="geometry">
@@ -393,8 +393,17 @@
             <mxPoint x="90" y="460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="O23gL1ym4Lucq9g-aiCs-70" parent="ZNFVqUGf9MMrudGl_lCM-0" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=19;" value="一个线程处理一个 seq，一共是需要" vertex="1">
-          <mxGeometry height="60" width="170" x="370" y="500" as="geometry" />
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-70" parent="ZNFVqUGf9MMrudGl_lCM-0" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=12;" value="一个线程处理一个 seq，一共 处理[seqlen, head_dim]，存到 rope 的两个 cache 中" vertex="1">
+          <mxGeometry height="60" width="170" x="340" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-71" parent="ZNFVqUGf9MMrudGl_lCM-0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#56E2FF;strokeColor=#6c8ebf;fontSize=13;fontStyle=0;fontColor=#000000;fillStyle=hatch;gradientColor=none;align=center;fontFamily=Times New Roman;" value="make_unique&amp;lt;sampler&amp;gt;" vertex="1">
+          <mxGeometry height="30" width="170" x="30" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-72" edge="1" parent="ZNFVqUGf9MMrudGl_lCM-0" source="O23gL1ym4Lucq9g-aiCs-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#007FFF;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="O23gL1ym4Lucq9g-aiCs-71">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="330" as="sourcePoint" />
+            <mxPoint x="150" y="470" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="ZNFVqUGf9MMrudGl_lCM-7" parent="aN83DGbymWm0B96Egb2V-1" style="text;whiteSpace=wrap;html=1;align=left;fontFamily=Times New Roman;" value="&lt;div style=&quot;color: rgb(202, 211, 245); background-color: rgb(36, 39, 58); font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;&quot;&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="40" width="500" x="290" y="1590" as="geometry" />
@@ -403,7 +412,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-4" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=14;" value="EncodeLayerBase" vertex="1">
-          <mxGeometry height="220" width="310" x="-330" y="630" as="geometry" />
+          <mxGeometry height="220" width="310" x="-275" y="670" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-5" parent="O23gL1ym4Lucq9g-aiCs-4" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=14;" value="&lt;div&gt;# has_bos_: bool&lt;/div&gt;&lt;div&gt;# has_eos_: bool&lt;/div&gt;&lt;div&gt;# token_model_path_:string&lt;/div&gt;" vertex="1">
           <mxGeometry height="60" width="310" y="30" as="geometry" />
@@ -414,11 +423,18 @@
         <mxCell id="O23gL1ym4Lucq9g-aiCs-7" parent="O23gL1ym4Lucq9g-aiCs-4" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=14;" value="&lt;div&gt;+ encode (const std::string&amp;amp; sentence) const: vector&amp;lt;int32_t&amp;gt;&lt;/div&gt;&lt;div&gt;+ decode(int32_t token_id) const: string&lt;/div&gt;&lt;div&gt;&lt;div&gt;+ decode(vector&amp;lt;int32_t&amp;gt;&amp;nbsp;&amp;amp;token_id) const: string&lt;/div&gt;&lt;div&gt;+ is_sentence_ending: bool&lt;/div&gt;&lt;div&gt;+ vocab_size() const: int32_t&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="119" width="310" y="101" as="geometry" />
         </mxCell>
-        <mxCell id="O23gL1ym4Lucq9g-aiCs-8" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="WZQZ3iQ7XR6_r25m7NWt-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;shape=link;align=left;fontFamily=Times New Roman;" target="O23gL1ym4Lucq9g-aiCs-5">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-8" edge="1" parent="aN83DGbymWm0B96Egb2V-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.023;entryY=0.361;entryDx=0;entryDy=0;endArrow=block;endFill=1;shape=link;align=left;fontFamily=Times New Roman;entryPerimeter=0;width=-6;" target="O23gL1ym4Lucq9g-aiCs-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="750" />
+              <mxPoint x="140" y="750" />
+              <mxPoint x="140" y="814" />
+            </Array>
+            <mxPoint x="200" y="720" as="sourcePoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-11" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=14;" value="SpeEncodeLayer" vertex="1">
-          <mxGeometry height="80" width="360" x="-530" y="960" as="geometry" />
+          <mxGeometry height="80" width="360" x="-300" y="1020" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-13" parent="O23gL1ym4Lucq9g-aiCs-11" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Times New Roman;fontSize=14;" value="" vertex="1">
           <mxGeometry height="11" width="360" y="30" as="geometry" />
@@ -426,40 +442,29 @@
         <mxCell id="O23gL1ym4Lucq9g-aiCs-14" parent="O23gL1ym4Lucq9g-aiCs-11" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=14;" value="&lt;div&gt;-&amp;nbsp;spe:&amp;nbsp;unique_ptr&amp;lt;sentencepiece::SentencePieceProcessor&amp;gt; &lt;/div&gt;" vertex="1">
           <mxGeometry height="39" width="360" y="41" as="geometry" />
         </mxCell>
-        <mxCell id="O23gL1ym4Lucq9g-aiCs-15" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.491;entryY=1.013;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=0;strokeWidth=1;endSize=21;align=left;fontFamily=Times New Roman;" target="O23gL1ym4Lucq9g-aiCs-7">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="-330" y="905" />
-              <mxPoint x="-178" y="905" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-16" parent="aN83DGbymWm0B96Egb2V-1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=6;align=left;fontFamily=Times New Roman;" value="&lt;font style=&quot;font-size: 9px;&quot;&gt; Google 开源 &lt;strong&gt;SentencePiece&lt;/strong&gt; 库的 &lt;strong&gt;C++ 核心主类&lt;/strong&gt;，提供完整的子词分词（Encode）与逆分词（Decode）功能，是大模型（如 T5、LLaMA、mT5）底层最常用的分词器接口&lt;/font&gt;&lt;font style=&quot;font-size: 7px;&quot;&gt;&lt;span class=&quot;spacing-DJv8I8&quot;&gt;&lt;/span&gt;&lt;/font&gt;" vertex="1">
-          <mxGeometry height="80" width="130" x="-680" y="960" as="geometry" />
-        </mxCell>
-        <mxCell id="O23gL1ym4Lucq9g-aiCs-18" parent="aN83DGbymWm0B96Egb2V-1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=13;align=left;fontFamily=Times New Roman;" value="OpenAI tiktoken，vocab size: 128,000（100k base + 28k 多语言增强）" vertex="1">
-          <mxGeometry height="80" width="130" x="-690" y="1080" as="geometry" />
+          <mxGeometry height="80" width="130" x="-360" y="920" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-19" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontStyle=1;align=left;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=14;" value="BpeEncodeLayer" vertex="1">
-          <mxGeometry height="160" width="360" x="-530" y="1089" as="geometry" />
+          <mxGeometry height="239" width="360" x="-280" y="1129" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-20" parent="O23gL1ym4Lucq9g-aiCs-19" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Times New Roman;fontSize=14;" value="" vertex="1">
-          <mxGeometry height="11" width="360" y="30" as="geometry" />
+          <mxGeometry height="10" width="360" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-18" parent="O23gL1ym4Lucq9g-aiCs-19" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=13;align=left;fontFamily=Times New Roman;" value="OpenAI tiktoken，vocab size: 128,000（100k base + 28k 多语言增强）" vertex="1">
+          <mxGeometry height="80" width="360" y="40" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-21" parent="O23gL1ym4Lucq9g-aiCs-19" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Times New Roman;fontSize=14;" value="&lt;div&gt;# bos_id: int32_t&lt;/div&gt;&lt;div&gt;# eos_id: int32_t&lt;/div&gt;&lt;div&gt;# stop_token1: int32_t&lt;/div&gt;&lt;div&gt;# stop_token2: int32_t&lt;/div&gt;&lt;div&gt;# num_token_: int32_t&lt;/div&gt;&lt;div&gt;# tiktoken: unique_ptr&amp;lt;tiktoken::tiktoken&amp;gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="119" width="360" y="41" as="geometry" />
+          <mxGeometry height="119" width="360" y="120" as="geometry" />
         </mxCell>
-        <mxCell id="O23gL1ym4Lucq9g-aiCs-22" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1;endSize=21;exitX=0.57;exitY=0.062;exitDx=0;exitDy=0;exitPerimeter=0;align=left;fontFamily=Times New Roman;">
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-22" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1;endSize=21;align=left;fontFamily=Times New Roman;exitX=0.606;exitY=0.013;exitDx=0;exitDy=0;exitPerimeter=0;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-330" y="1094" />
-              <mxPoint x="-330" y="1070" />
-              <mxPoint x="-120" y="1070" />
-              <mxPoint x="-120" y="910" />
+              <mxPoint x="-62" y="910" />
               <mxPoint x="-178" y="910" />
             </Array>
-            <mxPoint x="-330" y="1058" as="sourcePoint" />
-            <mxPoint x="-178" y="850" as="targetPoint" />
+            <mxPoint x="-60" y="1100" as="sourcePoint" />
+            <mxPoint x="-178" y="890" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-25" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;fillColor=#ffe6cc;strokeColor=#d79b00;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.999;entryY=0.433;entryDx=0;entryDy=0;entryPerimeter=0;align=left;fontFamily=Times New Roman;" target="WZQZ3iQ7XR6_r25m7NWt-18">
@@ -469,7 +474,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-32" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontFamily=Times New Roman;align=center;" value="TransformerConfig" vertex="1">
-          <mxGeometry height="260" width="200" x="-350" y="19.99999999999997" as="geometry" />
+          <mxGeometry height="260" width="200" x="-270" y="79.99999999999997" as="geometry" />
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-34" parent="O23gL1ym4Lucq9g-aiCs-32" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontFamily=Times New Roman;" value="&amp;nbsp; int32_t kv_dim_ = 0;&lt;br&gt;&amp;nbsp; int32_t kv_mul_ = 0;&lt;br&gt;&amp;nbsp; int32_t head_size_ = 0;&lt;br&gt;&amp;nbsp; int32_t vocab_size_ = 0;&lt;br&gt;&lt;br&gt;&amp;nbsp; int32_t dim_ = 0;&lt;br&gt;&amp;nbsp; int32_t hidden_dim_ = 0;&lt;br&gt;&amp;nbsp; int32_t layer_num_ = 0;&lt;br&gt;&amp;nbsp; int32_t head_num_ = 0;&lt;br&gt;&amp;nbsp; int32_t kv_head_num_ = 0;&lt;br&gt;&amp;nbsp; int32_t seq_len_ = 0;&lt;br&gt;&amp;nbsp; bool is_shared_weight_ = false;&lt;br&gt;#ifdef QWEN3_SUPPORT&lt;br&gt;&amp;nbsp; int32_t immediate_dim_ = 0;&lt;br&gt;#endif" vertex="1">
           <mxGeometry height="234" width="200" y="26" as="geometry" />
@@ -487,13 +492,14 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="O23gL1ym4Lucq9g-aiCs-39" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.008;entryY=0.398;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;" target="O23gL1ym4Lucq9g-aiCs-7">
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-39" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;entryX=0.848;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;endSize=10;startSize=8;" target="O23gL1ym4Lucq9g-aiCs-4">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="-880" y="40" />
-              <mxPoint x="-1300" y="40" />
-              <mxPoint x="-1300" y="778" />
+              <mxPoint x="-20" y="40" />
+              <mxPoint x="-20" y="670" />
             </Array>
+            <mxPoint x="-480" y="880" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-40" connectable="0" parent="O23gL1ym4Lucq9g-aiCs-39" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="make_unique" vertex="1">
@@ -502,15 +508,51 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="O23gL1ym4Lucq9g-aiCs-65" parent="aN83DGbymWm0B96Egb2V-1" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;strokeColor=#CC99FF;strokeWidth=2;" value="&lt;div align=&quot;left&quot;&gt;enum class ModelBufferType {&lt;br&gt;&amp;nbsp; kInputTokens = 0,&lt;br&gt;&amp;nbsp; kInputEmbeddings = 1,&lt;br&gt;&amp;nbsp; kOutputRMSNorm = 2,&lt;br&gt;&amp;nbsp; kKeyCache = 3,&lt;br&gt;&amp;nbsp; kValueCache = 4,&lt;br&gt;&amp;nbsp; kQuery = 5,&lt;br&gt;&amp;nbsp; kInputPos = 6,&lt;br&gt;&amp;nbsp; kScoreStorage = 7,&lt;br&gt;&amp;nbsp; kOutputMHA = 8,&lt;br&gt;&amp;nbsp; kAttnOutput = 9,&lt;br&gt;&amp;nbsp; kW1Output = 10,&lt;br&gt;&amp;nbsp; kW2Output = 11,&lt;br&gt;&amp;nbsp; kW3Output = 12,&lt;br&gt;&amp;nbsp; kFFNRMSNorm = 13,&lt;br&gt;&amp;nbsp; kForwardOutput = 15,&lt;br&gt;&amp;nbsp; kForwardOutputCPU = 16,&lt;br&gt;&lt;br&gt;&amp;nbsp; kSinCache = 17,&lt;br&gt;&amp;nbsp; kCosCache = 18,&lt;br&gt;};&lt;br&gt;} // 一个 map 里存的所有 tensor&lt;div&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="370" width="200" x="-1580" y="300" as="geometry" />
+          <mxGeometry height="370" width="200" x="-1580" y="214" as="geometry" />
         </mxCell>
-        <mxCell id="O23gL1ym4Lucq9g-aiCs-66" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.984;entryY=0.626;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;strokeColor=#6666FF;" target="O23gL1ym4Lucq9g-aiCs-65">
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-66" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.305;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;strokeColor=#6666FF;" target="O23gL1ym4Lucq9g-aiCs-65">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-855" y="530" />
-              <mxPoint x="-1383" y="530" />
+              <mxPoint x="-840" y="670" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-73" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1;endSize=21;align=left;fontFamily=Times New Roman;exitX=0.339;exitY=0.025;exitDx=0;exitDy=0;exitPerimeter=0;" target="O23gL1ym4Lucq9g-aiCs-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-180" y="1022" />
+            </Array>
+            <mxPoint x="26" y="1182" as="sourcePoint" />
+            <mxPoint x="-90" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-75" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontSize=16;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;fillStyle=cross-hatch;align=center;fontFamily=Times New Roman;strokeWidth=2;" value="create_layers" vertex="1">
+          <mxGeometry height="640" width="720" x="-1090" y="790" as="geometry" />
+        </mxCell>
+        <UserObject label="create_param_layers()" id="O23gL1ym4Lucq9g-aiCs-100">
+          <mxCell parent="O23gL1ym4Lucq9g-aiCs-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;fontStyle=0;fillStyle=hatch;align=center;fontFamily=Times New Roman;strokeWidth=2;" vertex="1">
+            <mxGeometry height="30" width="180" x="40" y="180" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div align=&quot;left&quot;&gt;if (!llama_layers_) {&lt;br&gt;&amp;nbsp; &amp;nbsp; llama_layers_ = std::make_unique&amp;lt;LLama2Layers&amp;gt;();&lt;br&gt;&amp;nbsp; }// 注意，这里是 unique&lt;/div&gt;" id="O23gL1ym4Lucq9g-aiCs-102">
+          <mxCell parent="O23gL1ym4Lucq9g-aiCs-75" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;fontStyle=0;fillStyle=hatch;align=left;fontFamily=Times New Roman;strokeWidth=2;" vertex="1">
+            <mxGeometry height="90" width="290" x="40" y="40" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-104" edge="1" parent="O23gL1ym4Lucq9g-aiCs-75" source="O23gL1ym4Lucq9g-aiCs-102" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.813;entryY=0.043;entryDx=0;entryDy=0;entryPerimeter=0;" target="O23gL1ym4Lucq9g-aiCs-100">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-99" parent="aN83DGbymWm0B96Egb2V-1" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;strokeColor=#CC99FF;strokeWidth=2;align=left;" value="&lt;font face=&quot;Times New Roman&quot; style=&quot;font-size: 14px;&quot;&gt;struct LLama2Layers {&lt;br&gt;&amp;nbsp; std::shared_ptr&amp;lt;op::Layer&amp;gt; add_layer_;&lt;br&gt;&amp;nbsp; std::shared_ptr&amp;lt;op::Layer&amp;gt; rope_layer_;&lt;br&gt;&amp;nbsp; std::shared_ptr&amp;lt;op::Layer&amp;gt; swiglu_layer_;&lt;br&gt;&amp;nbsp; std::shared_ptr&amp;lt;op::Layer&amp;gt; mha_layer_;&lt;br&gt;// 下面大部分都是 &lt;span style=&quot;color: rgb(102, 102, 255);&quot;&gt;MatmulLayer&lt;/span&gt;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; wq_layers_;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; wk_layers_;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; wv_layers_;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; wo_layers_;&lt;br&gt;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; w1_layers_;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; w2_layers_;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; rmsnorm_layers_;&lt;br&gt;&amp;nbsp; std::vector&amp;lt;std::shared_ptr&amp;lt;op::Layer&amp;gt;&amp;gt; w3_layers_;&lt;br&gt;&amp;nbsp; std::shared_ptr&amp;lt;op::Layer&amp;gt; cls_layer_;&lt;br&gt;&lt;br&gt;&amp;nbsp; std::shared_ptr&amp;lt;op::Layer&amp;gt; embedding_layer_;&lt;br&gt;&lt;br&gt;&amp;nbsp; void to_cuda(std::shared_ptr&amp;lt;kernel::CudaConfig&amp;gt; config);&lt;br&gt;};&lt;/font&gt;" vertex="1">
+          <mxGeometry height="360" width="400" x="-1600" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-101" parent="aN83DGbymWm0B96Egb2V-1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=11;" value="为什么layers 用 shared_ptr: 容器操作的便利性&lt;br&gt;&lt;br&gt;&amp;nbsp; // vector 中 shared_ptr 更容易处理&lt;br&gt;&amp;nbsp; llama_layers_-&amp;gt;wq_layers_.push_back(wq);&amp;nbsp; // 直接 push&lt;br&gt;&amp;nbsp; llama_layers_-&amp;gt;wq_layers_.at(i);&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; // 随意访问和复制&lt;br&gt;&lt;br&gt;&amp;nbsp; // 如果用 unique_ptr&lt;br&gt;&amp;nbsp; llama_layers_-&amp;gt;wq_layers_.push_back(std::move(wq));&amp;nbsp; // 必须 move&lt;br&gt;&amp;nbsp; auto layer = std::move(llama_layers_-&amp;gt;wq_layers_.at(i));&amp;nbsp; // 取出也会转移所有权" vertex="1">
+          <mxGeometry height="220" width="330" x="-1550" y="1185" as="geometry" />
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-106" parent="aN83DGbymWm0B96Egb2V-1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=6;align=left;" value="&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;// 访问 layer 的 weight 的时候 cast 是按类型的&lt;/font&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;const void* RawModelDataFp32::weight(size_t offset) const {&lt;br&gt;&amp;nbsp; return static_cas&lt;span style=&quot;color: rgb(255, 51, 51);&quot;&gt;t&amp;lt;float*&amp;gt;&lt;/span&gt;(weight_data) + offset;&lt;br&gt;}&lt;br&gt;const void* RawModelDataInt8::weight(size_t offset) const {&lt;br&gt;&amp;nbsp; return static_cast&amp;lt;int8_t*&amp;gt;(weight_data) + offset;&lt;br&gt;}&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="230" x="-270" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="O23gL1ym4Lucq9g-aiCs-107" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="O23gL1ym4Lucq9g-aiCs-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" target="O23gL1ym4Lucq9g-aiCs-106">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
