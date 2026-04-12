@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram id="zxnkULUiimbsZzd8VOPa" name="Kuiper架构">
-    <mxGraphModel dx="2038" dy="1208" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="1698" dy="1007" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="aN83DGbymWm0B96Egb2V-0" />
         <mxCell id="aN83DGbymWm0B96Egb2V-1" parent="aN83DGbymWm0B96Egb2V-0" />
@@ -388,15 +388,15 @@
           <mxGeometry height="51" width="350" y="79" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-981" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=27.764705882352942;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Times New Roman;fontSize=15;" value="MemoryPool" vertex="1">
-          <mxGeometry height="427.7647058823529" width="668" x="2586.5" y="476.6400000000001" as="geometry" />
+          <mxGeometry height="444.00470588235294" width="668" x="2586.5" y="476.6400000000001" as="geometry" />
         </mxCell>
-        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-982" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-unique_ptr&lt;Allocator&gt; backend_" vertex="1">
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-982" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;fontColor=#CC0000;" value="-unique_ptr&lt;Allocator&gt; backend_// 一切行动都是调用backend" vertex="1">
           <mxGeometry height="28" width="668" y="27.764705882352942" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-983" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-multimap&lt;size_t, MemoryBlock&gt; pool_" vertex="1">
           <mxGeometry height="28" width="668" y="55.76470588235294" as="geometry" />
         </mxCell>
-        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-984" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-unordered_map&lt;void*, iterator&gt; ptr_to_block_" vertex="1">
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-984" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;fontColor=#00994D;" value="-unordered_map&lt;void*, iterator&gt; ptr_to_block_" vertex="1">
           <mxGeometry height="28" width="668" y="83.76470588235294" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-985" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-size_t current_cache_size_" vertex="1">
@@ -423,17 +423,17 @@
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-992" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+~MemoryPool()" vertex="1">
           <mxGeometry height="28" width="668" y="287.7647058823529" as="geometry" />
         </mxCell>
-        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-993" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+malloc(size: size_t) : ~ void" vertex="1">
-          <mxGeometry height="28" width="668" y="315.7647058823529" as="geometry" />
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-993" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;fontColor=#006666;" value="+malloc(size: size_t) : ~ void // malloc 的时候调用 trim_cache() :  如果超过上限，释放空闲块&#xa;//在池中查找空闲块, 找到复用，没找到backend分配" vertex="1">
+          <mxGeometry height="44.24" width="668" y="315.7647058823529" as="geometry" />
         </mxCell>
-        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-994" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+free(ptr: void*) : ~ void" vertex="1">
-          <mxGeometry height="28" width="668" y="343.7647058823529" as="geometry" />
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-994" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+free(ptr: void*) : ~ void // 只负责把块标记为空闲" vertex="1">
+          <mxGeometry height="28" width="668" y="360.00470588235294" as="geometry" />
         </mxCell>
-        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-997" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-get_bin_size(size: size_t) : ~ size_t" vertex="1">
-          <mxGeometry height="28" width="668" y="371.7647058823529" as="geometry" />
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-997" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;fontColor=#CC0000;" value="-get_bin_size(size: size_t) : ~ size_t" vertex="1">
+          <mxGeometry height="28" width="668" y="388.00470588235294" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-998" parent="0BqmxJm_ZGjpQhJTHVKr-981" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-trim_cache() : ~ void" vertex="1">
-          <mxGeometry height="28" width="668" y="399.7647058823529" as="geometry" />
+          <mxGeometry height="28" width="668" y="416.00470588235294" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-999" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=56.727272727272734;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#CC0000,#CCCCCC);fontFamily=Times New Roman;fontSize=15;" value="&lt;&lt;struct&gt;&gt;&#xa;MemoryBlock" vertex="1">
           <mxGeometry height="216.72727272727275" width="347" x="2590" y="926.6400000000001" as="geometry" />
@@ -484,37 +484,37 @@
           <mxGeometry height="31" width="681" y="271.8571428571429" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1016" parent="aN83DGbymWm0B96Egb2V-1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=light-dark(#eeeeee,#1f2020);strokeColor=light-dark(#999999,#cccccc);fontColor=light-dark(#333333,#cccccc);fontFamily=Times New Roman;fontSize=15;" value="Storage" vertex="1">
-          <mxGeometry height="288" width="737" x="1733" y="126.6400000000001" as="geometry" />
+          <mxGeometry height="288" width="580" x="1720" y="92" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1017" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-void* data_" vertex="1">
-          <mxGeometry height="28" width="737" y="28" as="geometry" />
+          <mxGeometry height="28" width="580" y="28" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1018" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-size_t size_" vertex="1">
-          <mxGeometry height="28" width="737" y="56" as="geometry" />
+          <mxGeometry height="28" width="580" y="56" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1019" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-DeviceType device_type_" vertex="1">
-          <mxGeometry height="28" width="737" y="84" as="geometry" />
+          <mxGeometry height="28" width="580" y="84" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1020" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-int device_index_" vertex="1">
-          <mxGeometry height="28" width="737" y="112" as="geometry" />
+          <mxGeometry height="28" width="580" y="112" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1021" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="-MemoryPool* pool_" vertex="1">
-          <mxGeometry height="28" width="737" y="140" as="geometry" />
+          <mxGeometry height="28" width="580" y="140" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1022" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontFamily=Times New Roman;fontSize=15;" vertex="1">
-          <mxGeometry height="8" width="737" y="168" as="geometry" />
+          <mxGeometry height="8" width="580" y="168" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1026" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+operator=(other: Storage&amp;&amp;) : ~ Storage&amp;" vertex="1">
-          <mxGeometry height="28" width="737" y="176" as="geometry" />
+          <mxGeometry height="28" width="580" y="176" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1027" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+create(size: size_t, device_type: DeviceType, device_index: int) : &lt; shared_ptr~Storage&gt;" vertex="1">
-          <mxGeometry height="28" width="737" y="204" as="geometry" />
+          <mxGeometry height="28" width="580" y="204" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1028" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+data() : ~ void" vertex="1">
-          <mxGeometry height="28" width="737" y="232" as="geometry" />
+          <mxGeometry height="28" width="580" y="232" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1029" parent="0BqmxJm_ZGjpQhJTHVKr-1016" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontFamily=Times New Roman;fontSize=15;" value="+size() : ~ size_t" vertex="1">
-          <mxGeometry height="28" width="737" y="260" as="geometry" />
+          <mxGeometry height="28" width="580" y="260" as="geometry" />
         </mxCell>
         <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1033" edge="1" parent="aN83DGbymWm0B96Egb2V-1" source="0BqmxJm_ZGjpQhJTHVKr-963" style="startArrow=block;startSize=16;startFill=0;endArrow=none;entryX=0.78;entryY=0;rounded=0;edgeStyle=orthogonalEdgeStyle;fontFamily=Times New Roman;fontSize=15;" target="0BqmxJm_ZGjpQhJTHVKr-966" value="">
           <mxGeometry relative="1" as="geometry">
@@ -565,8 +565,14 @@
             <mxPoint x="1930" y="596.6400000000001" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1043" parent="aN83DGbymWm0B96Egb2V-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Text" vertex="1">
-          <mxGeometry height="30" width="60" x="2450" y="1170" as="geometry" />
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1047" parent="aN83DGbymWm0B96Egb2V-1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=12;fontFamily=Times New Roman;" value="&lt;div&gt;get_bin_size(size_t size)&lt;/div&gt;&lt;div&gt;// 小内存按2的幂分桶，&lt;/div&gt;&lt;div&gt;小内存(&amp;lt;512KB),最小256B&lt;/div&gt;&lt;div&gt;//大内存按范围分桶&lt;/div&gt;&lt;div&gt;大内存：&lt;/div&gt;&lt;div&gt;512KB~1MB -&amp;gt; 1MB&lt;/div&gt;&lt;div&gt;1MB~4MB -&amp;gt; 4MB&lt;/div&gt;&lt;div&gt;4MB~16MB -&amp;gt; 16MB&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="160" x="2960" y="907.5" as="geometry" />
+        </mxCell>
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1049" parent="aN83DGbymWm0B96Egb2V-1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=15;" value="&amp;nbsp; - 1 个 MemoryPoolManager（全局单例）&lt;br&gt;&amp;nbsp; - N 个 MemoryPool（N = GPU 数量 + 1）" vertex="1">
+          <mxGeometry height="50" width="310" x="2420" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="0BqmxJm_ZGjpQhJTHVKr-1051" parent="aN83DGbymWm0B96Egb2V-1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontColor=#000000;darkOpacity=0.05;fillColor=#FFF9B2;strokeColor=none;fillStyle=solid;direction=west;gradientDirection=north;gradientColor=#FFF2A1;shadow=1;size=20;autosizeText=1;fontSize=9;align=left;" value="&lt;div align=&quot;left&quot;&gt;Storage::~Storage()&lt;br&gt;{&lt;br&gt;&amp;nbsp; &amp;nbsp; if (data_ != nullptr)&lt;br&gt;&amp;nbsp; &amp;nbsp; {&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; pool_-&amp;gt;free(data_);&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; data_ = nullptr;&lt;br&gt;&amp;nbsp; &amp;nbsp; }&amp;nbsp; // 所以每个storage析构的时候自动调用free&lt;br&gt;}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="185" width="180" x="2320" y="115" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
